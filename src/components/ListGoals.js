@@ -49,7 +49,7 @@ function ListGoals({goals, data}) {
         onChange={e => setSearchTerm(e.target.value)}
       />
       <Select>
-        <label htmlFor="sort">Sort:</label>
+        <label htmlFor="sort">Sort by:</label>
         <select id="sort" onChange={e => handleSort(e.currentTarget.value)}>
           <option value="none">None</option>
           <option value="a_z">A to Z</option>
