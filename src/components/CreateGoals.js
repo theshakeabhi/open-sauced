@@ -95,7 +95,7 @@ function CreateGoals({installNeeded, user, onRepoCreation}) {
         <a
           rel="noreferrer"
           target="_blank"
-          href={`https://github.com/apps/open-sauced/installations/new/permissions?target_id=${user.id}`}>
+          href={`https://github.com/settings/installations/${user.id}`}>
           <Button primary>Finish initializing {user.login}/open-sauced-goals</Button>
         </a>
       ) : (
