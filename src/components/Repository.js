@@ -21,12 +21,13 @@ import {RepoForkedIcon} from "@primer/octicons-react";
 import {fontSize} from "../styles/variables";
 
 function Repository({user, match}) {
+  console.log(user)
   const {
     params: {repoName, repoOwner, id},
   } = match;
   const [repository, setRepository] = useState(null);
   const [error, setError] = useState(null);
-  const [note, setNote] = useState(location.note);
+  const [note, setNote] = useState("");
   const [issueId, setIssueId] = useState();
   const [isForkLoading, setIsForkLoading] = useState(true);
   const [isForked, setIsForked] = useState(false);
@@ -58,6 +59,7 @@ function Repository({user, match}) {
     api
       .persistedGoalFetch(parseInt(id))
       .then(res => {
+        console.log(id);
         const {id, body} = res.data.gitHub.viewer.repository.issue;
         setNote(body);
         setIssueId(id);
@@ -174,7 +176,9 @@ function Repository({user, match}) {
         <ButtonBoard>
           {repository ? (
             <span>
-              <p style={{fontSize: fontSize.small}}>CodeTriage helps by picking a handful of open issues and delivering them directly to your inbox.</p>
+              <p style={{fontSize: fontSize.small}}>
+                CodeTriage helps by picking a handful of open issues and delivering them directly to your inbox.
+              </p>
               <a rel="noreferrer" target="_blank" href={`https://codetriage.com/${nameWithOwner}`}>
                 <Button primary>Set up CodeTriage</Button>
               </a>

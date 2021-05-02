@@ -22,7 +22,6 @@ function Issues({repoName, owner}) {
   useEffect(() => {
     setLoading(true);
     api.persistedRepositoryIssuesFetch(owner, repoName).then(response => {
-      console.log(response)
       const {data, totalCount} = response.data.gitHub.repositoryOwner.repository.issues;
       const {hasIssuesEnabled} = response.data.gitHub.repositoryOwner.repository;
       const lastIssue = totalCount > 0 ? data[data.length - 1] : {};
@@ -53,7 +52,7 @@ function Issues({repoName, owner}) {
   const _handlePreviousIssues = () => {
     setIssuesLoading(true);
     api.persistedRepositoryIssuesFetch(owner, repoName, cursor, true).then(response => {
-      console.log(response)
+      console.log(response);
       const {data, totalCount} = response.data.gitHub.repositoryOwner.repository.issues;
       const newCursor = data[0].newCursor;
       setIssues(data);
@@ -68,7 +67,6 @@ function Issues({repoName, owner}) {
   const currentPage = offset / 5 + 1;
 
   return owner ? (
-
     <Card fitted>
       <CardHeader>
         <h1>Issues</h1>
@@ -79,22 +77,22 @@ function Issues({repoName, owner}) {
             <IssuesLoader />
           ) : (
             issues &&
-              issues.map(issue => (
-                <li key={issue.node.id}>
-                  <a rel="noreferrer" target="_blank" href={issue.node.url}>
-                    <IssuesListItem
-                      type="issues"
-                      title={issue.node.title}
-                      labels={issue.node.labels}
-                      author={issue.node.author.login}
-                      opened={issue.node.createdAt}
-                      participants={issue.node.participants}
-                      comments={issue.node.comments}
-                      milestone={issue.node.milestone}
-                    />
-                  </a>
-                </li>
-              ))
+            issues.map(issue => (
+              <li key={issue.node.id}>
+                <a rel="noreferrer" target="_blank" href={issue.node.url}>
+                  <IssuesListItem
+                    type="issues"
+                    title={issue.node.title}
+                    labels={issue.node.labels}
+                    author={issue.node.author.login}
+                    opened={issue.node.createdAt}
+                    participants={issue.node.participants}
+                    comments={issue.node.comments}
+                    milestone={issue.node.milestone}
+                  />
+                </a>
+              </li>
+            ))
           )}
           <CardPadding>
             <FlexCenter className="pagination-buttons">
@@ -103,32 +101,26 @@ function Issues({repoName, owner}) {
             </FlexCenter>
           </CardPadding>
         </List>
+      ) : loading ? (
+        <IssuesLoader />
       ) : (
-        loading ? (
-          <IssuesLoader />
-        ) : (
-          <EmptyPlaceholder style={{marginTop: 100}}>
-            {issuesEnabled ? (
-              <div>
-                <div style={{color: "grey"}}>
-                  <IssueOpenedIcon size="large" verticalAlign="middle" />
-                </div>
-                <div className="helper">
-                  No Issues found
-                </div>
+        <EmptyPlaceholder style={{marginTop: 100}}>
+          {issuesEnabled ? (
+            <div>
+              <div style={{color: "grey"}}>
+                <IssueOpenedIcon size="large" verticalAlign="middle" />
               </div>
-            ) : (
-              <div>
-                <div style={{color: "grey"}}>
-                  <IssueOpenedIcon size="large" verticalAlign="middle" />
-                </div>
-                <div className="helper">
-                  Issues not enabled
-                </div>
+              <div className="helper">No Issues found</div>
+            </div>
+          ) : (
+            <div>
+              <div style={{color: "grey"}}>
+                <IssueOpenedIcon size="large" verticalAlign="middle" />
               </div>
-            )}
-          </EmptyPlaceholder>
-        )
+              <div className="helper">Issues not enabled</div>
+            </div>
+          )}
+        </EmptyPlaceholder>
       )}
     </Card>
   ) : (
